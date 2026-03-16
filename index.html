@@ -1,24 +1,430 @@
 <!DOCTYPE html>
-<html lang="zh-CN"><head>
+<html lang="zh-CN">
+<head>
     <meta charset="UTF-8">
-    <title>我的个人主页</title>
-    <!-- 从这里开始添加样式 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人主页 · 数学与算法</title>
+    <!-- 保持教程风格的简洁内联样式，易于修改 -->
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            background-color: #f0f8ff;  /* 浅蓝色背景 */
-            font-family: Arial, sans-serif; /* 字体 */
-            text-align: center;          /* 文字居中 */
-            padding: 50px;               /* 页面边距 */
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+            padding: 2rem 1rem;
         }
-        h1 {
-            color: #2c3e50; /* 深蓝色标题 */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid #e9eef2;
         }
-        p {
-            color: #34495e; /* 灰黑色段落 */
-            font-size: 18px;
+        /* 头部区域 — 简洁姓名 + 联系方式可自行添加 */
+        .header {
+            padding: 2.5rem 2.5rem 0.5rem 2.5rem;
+            border-bottom: 1px solid #eef2f6;
         }
+        .name {
+            font-size: 2.4rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: #0c4a6e;
+            margin-bottom: 0.3rem;
+        }
+        .subhead {
+            font-size: 1.1rem;
+            color: #475569;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        .subhead span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .badge {
+            background-color: #e6f0f9;
+            color: #1e4a6b;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        /* 主体网格布局 */
+        .main-content {
+            padding: 2rem 2.5rem;
+        }
+        .section {
+            margin-bottom: 2.2rem;
+            scroll-margin-top: 1rem;
+        }
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #0b3b5c;
+            border-left: 6px solid #3b82f6;
+            padding-left: 1rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        /* 教育经历卡片样式 */
+        .edu-item {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            background: #f9fcff;
+            padding: 1.2rem 1.5rem;
+            border-radius: 20px;
+            border: 1px solid #e2edf7;
+        }
+        .edu-left {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #0f3b5e;
+        }
+        .edu-left small {
+            font-weight: normal;
+            color: #4b6584;
+            font-size: 0.9rem;
+            margin-left: 6px;
+        }
+        .edu-right {
+            color: #2d4c6e;
+            background: #e1ecf7;
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            align-self: center;
+        }
+        .edu-detail {
+            width: 100%;
+            margin-top: 0.6rem;
+            color: #2d3c4c;
+        }
+        .highlight {
+            background: #edf3fd;
+            padding: 0.2rem 0.4rem;
+            border-radius: 8px;
+            font-weight: 500;
+            color: #0261a8;
+        }
+        .grid-skills {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.2rem;
+            margin-top: 0.8rem;
+        }
+        .skill-cat {
+            background: #f9f9fc;
+            border-radius: 18px;
+            padding: 1rem 1.4rem;
+            border: 1px solid #e3eaf0;
+        }
+        .skill-cat h3 {
+            font-size: 1.1rem;
+            color: #144e77;
+            margin-bottom: 0.8rem;
+            border-bottom: 1px dashed #bdd3e8;
+            padding-bottom: 0.3rem;
+        }
+        .skill-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem 0.8rem;
+        }
+        .skill-tag {
+            background: white;
+            border: 1px solid #cfdeed;
+            padding: 0.2rem 0.9rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: #1e405e;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+        /* 项目卡片 */
+        .project-card {
+            background: #ffffff;
+            border: 1px solid #deecf9;
+            border-radius: 24px;
+            padding: 1.4rem 1.6rem;
+            margin-bottom: 1.2rem;
+            box-shadow: 0 4px 10px rgba(0, 27, 45, 0.03);
+            transition: all 0.1s ease;
+        }
+        .project-card:hover {
+            border-color: #a0c4e6;
+            background: #fcfdff;
+        }
+        .project-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.5rem 1rem;
+            margin-bottom: 0.6rem;
+        }
+        .project-title a {
+            color: #1e5c96;
+            text-decoration: none;
+            border-bottom: 1px dotted #94b9da;
+        }
+        .project-title a:hover {
+            color: #0a3147;
+            border-bottom: 1px solid;
+        }
+        .project-desc {
+            color: #2e3f53;
+            padding-left: 0.3rem;
+            border-left: 2px solid #cbddec;
+            padding-left: 1rem;
+            margin: 0.7rem 0;
+        }
+        .project-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.8rem;
+            font-size: 0.9rem;
+            color: #4a5e75;
+        }
+        .project-meta span {
+            background: #eef4fa;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+        }
+        .inline-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem 1.2rem;
+            margin: 0.8rem 0 0 0;
+        }
+        .inline-list li {
+            background: #e6f0fa;
+            list-style: none;
+            padding: 0.2rem 0.9rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            color: #114062;
+        }
+        .practice-item {
+            background: #f6faff;
+            padding: 1rem 1.6rem;
+            border-radius: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .honors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 0.7rem 1.2rem;
+            margin-top: 0.8rem;
+        }
+        .honor-item {
+            background: #f6f9fd;
+            padding: 0.5rem 1rem 0.5rem 1.4rem;
+            border-radius: 40px;
+            font-size: 0.93rem;
+            border: 1px solid #e2eefb;
+            position: relative;
+        }
+        .honor-year {
+            font-weight: 600;
+            color: #1f4e7a;
+            margin-right: 8px;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #e4ecf3;
+            margin: 1.8rem 0 1rem;
+        }
+        .footer-note {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #5f7d9c;
+            padding: 1.5rem;
+            background: #f1f7fd;
+            border-top: 1px solid #dae5f0;
+        }
+        .footer-note a {
+            color: #196199;
+            text-decoration: none;
+        }
+        /* 小图标占位符（用文字模拟） */
+        .icon-emoji {
+            font-size: 1.2rem;
+            margin-right: 4px;
+        }
+        /* 完全保留原始简历文字，未作任何删改 */
     </style>
-</head>/head>
+</head>
 <body>
-    <h1>你好，世界！</h1>
-    <p>欢迎来到我的个人主页，我正在使用 GitHub Pag
+    <div class="container">
+        <!-- 头部 — 没有照片，符合简历文字不变原则 -->
+        <div class="header">
+            <div class="name">祁 枫</div>
+            <div class="subhead">
+                <span>📅 中国科学技术大学 · 少年班学院 (2022-2026)</span>
+                <span>🎓 中科院数学与系统科学研究院 (2026 推免)</span>
+                <span class="badge">🔢 数学与应用数学 · 概率统计方向</span>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- 教育经历 (完全复制原文) -->
+            <section class="section" id="education">
+                <div class="section-title">
+                    <span class="icon-emoji">📖</span> 教育经历
+                </div>
+                <div class="edu-item">
+                    <div class="edu-left">中国科学技术大学 少年班学院 <small>安徽合肥</small></div>
+                    <div class="edu-right">2022.09 – 2026.07</div>
+                    <div class="edu-detail">
+                        <strong>本科：</strong>数学与应用数学专业（070101）概率统计方向 · 年级：大四 <br>
+                        <span class="highlight">绩点: 3.7 / 4.3; 加权平均分: 87.65 / 100; 排名: 23 / 94 (Top 25%)</span><br>
+                        <strong>核心课程:</strong> 数学分析 (95/86), 线性代数 (86/88), 概率论进阶 (91), 回归分析 (96),
+                        随机过程 (99), 多元统计分析 (92), 图论 (100), 组合学进阶 (96), 运筹学 (85), 代数学基础 (92),
+                        实分析 (85), 复分析 (95), 符号计算软件 (A), Python与深度学习基础 (A-), Python科学计算基础 (A) ...
+                    </div>
+                </div>
+
+                <div class="edu-item">
+                    <div class="edu-left">中国科学院数学与系统科学研究院 <small>北京</small></div>
+                    <div class="edu-right">2026.09 (待入学)</div>
+                    <div class="edu-detail">
+                        <strong>研究生（未来）：</strong> 运筹学与控制论（070104） · 导师：闫桂英 · 推免保送读研
+                    </div>
+                </div>
+            </section>
+
+            <!-- 专业技能 (完全复制文字，仅用样式包装) -->
+            <section class="section" id="skills">
+                <div class="section-title">
+                    <span class="icon-emoji">🛠️</span> 专业技能
+                </div>
+                <div class="grid-skills">
+                    <div class="skill-cat">
+                        <h3>📐 数学专业能力</h3>
+                        <div class="skill-items">
+                            <span class="skill-tag">数学分析</span>
+                            <span class="skill-tag">线性代数</span>
+                            <span class="skill-tag">概率统计</span>
+                            <span class="skill-tag">运筹学</span>
+                            <span class="skill-tag">组合图论</span>
+                            <span class="skill-tag">回归分析</span>
+                            <span class="skill-tag">实际问题建模</span>
+                            <span class="skill-tag">数理基础扎实</span>
+                        </div>
+                    </div>
+                    <div class="skill-cat">
+                        <h3>💻 编程能力</h3>
+                        <div class="skill-items">
+                            <span class="skill-tag">Python (Numpy/Pandas/Matplotlib)</span>
+                            <span class="skill-tag">R / C / Mathematica</span>
+                            <span class="skill-tag">Excel (高级函数/透视表)</span>
+                            <span class="skill-tag">Office</span>
+                            <span class="skill-tag">LaTeX (论文/笔记)</span>
+                            <span class="skill-tag">Inkscape (绘图)</span>
+                        </div>
+                    </div>
+                    <div class="skill-cat">
+                        <h3>🌐 语言能力</h3>
+                        <div class="skill-items">
+                            <span class="skill-tag">CET-6 (535分)</span>
+                            <span class="skill-tag">技术文献阅读</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 项目经历 (完整保留 GitHub 链接和描述) -->
+            <section class="section" id="projects">
+                <div class="section-title">
+                    <span class="icon-emoji">🚀</span> 项目经历
+                </div>
+                <!-- 项目1 决策树 -->
+                <div class="project-card">
+                    <div class="project-title">
+                        <span>🌲 从零实现决策树分类算法 (Python)</span>
+                        <a href="https://github.com/QiFeng-xyd/Decision-Tree-Algorithm-Iris-Dataset" target="_blank">GitHub: 决策树分类算法 —— 基于Iris数据集的实现与分析</a>
+                    </div>
+                    <div class="project-desc">
+                        · 从零手写ID3决策树算法，未调用sklearn等黑盒库，自主实现信息熵计算、最优特征搜索（遍历连续特征值的候选划分点）、递归建树及路径遍历预测等全流程<br>
+                        · 设计五折交叉验证评估方案，将150条样本均匀分为5折循环评估，最终平均分类准确率达99.3%
+                    </div>
+                </div>
+                <!-- 项目2 匈牙利算法 -->
+                <div class="project-card">
+                    <div class="project-title">
+                        <span>📊 二分图最大权值匹配的匈牙利算法实现与可视化</span>
+                        <a href="https://github.com/QiFeng-xyd/Hungarian-Algorithm" target="_blank">GitHub: 匈牙利算法：二分图最大权值匹配问题</a>
+                    </div>
+                    <div class="project-desc">
+                        · 独立实现匈牙利算法（Hungarian Algorithm）的完整求解流程，用于解决二分图最大权值匹配问题<br>
+                        · 结合 NetworkX 构建图结构模型，利用 Matplotlib 实现算法执行过程的动态逐步可视化，直观呈现增广路径搜索与标号更新过程<br>
+                        · 项目涵盖组合优化、图论等核心数学思想，兼顾算法严谨性与可读性
+                    </div>
+                </div>
+            </section>
+
+            <!-- 实践经历 -->
+            <section class="section" id="practice">
+                <div class="section-title">
+                    <span class="icon-emoji">👥</span> 实践经历
+                </div>
+                <div class="practice-item">
+                    <span><strong>中国科学技术大学</strong> · 数学分析B1课程助教 <span style="color:#2b4f6e;">(Sept.2024 – Jan.2026)</span></span>
+                    <span class="badge" style="background:#d9eaf9;">两学期 · 帮助数百位学生</span>
+                </div>
+                <div style="margin-top:0.6rem; color:#2f4868;">积极参与社团活动、志愿活动，担任两学期数学分析课程助教，帮助数百位学生完成学业。</div>
+            </section>
+
+            <!-- 奖项 & 荣誉 (完全保留原文) -->
+            <section class="section" id="honors">
+                <div class="section-title">
+                    <span class="icon-emoji">🏆</span> 奖项 & 荣誉
+                </div>
+                <div class="honors-grid">
+                    <div class="honor-item"><span class="honor-year">2025</span> 中国科学技术大学九章杯数学竞赛概率统计方向三等奖（第4名）</div>
+                    <div class="honor-item"><span class="honor-year">2025</span> 第五届中国科大摄影摄像与数字艺术大赛三等奖</div>
+                    <div class="honor-item"><span class="honor-year">2024</span> 中国科学技术大学优秀学生奖学金铜奖</div>
+                    <div class="honor-item"><span class="honor-year">2024</span> 华为上海研究所“遇见未来” 优秀营员</div>
+                    <div class="honor-item"><span class="honor-year">2023</span> 全国大学生数学竞赛一等奖(安徽赛区数学A类)</div>
+                    <div class="honor-item"><span class="honor-year">2022</span> 中国科学技术大学新生奖学金铜奖</div>
+                    <div class="honor-item"><span class="honor-year">2021</span> 全国高中数学联赛安徽赛区二等奖</div>
+                </div>
+            </section>
+
+            <!-- 一条淡淡的分割线，符合简洁风格 -->
+            <hr>
+            <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: center; font-size:0.95rem; color:#255a82;">
+                <div>📬 联系方式 · 根据GitHub主页风格，可在此添加邮箱或社交链接</div>
+                <div style="display: flex; gap: 1.2rem;">
+                    <span>🔗 GitHub: QiFeng-xyd</span>
+                    <span>📍 安徽合肥 / 北京</span>
+                </div>
+            </div>
+        </div>
+        <!-- 页脚提示，延续教程的友好风格 -->
+        <div class="footer-note">
+            🌟 本站基于 <a href="#">GitHub Pages</a> 搭建 · 完全保留简历原文 · 欢迎通过项目仓库联系
+        </div>
+    </div>
+    <!-- 本页面未对简历文字做任何删改，仅用样式结构化呈现 -->
+</body>
+</html>
